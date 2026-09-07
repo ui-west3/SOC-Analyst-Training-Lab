@@ -13,7 +13,7 @@ Focus: understand attacker thinking and map every step to defender visibility.
 
 | #   | Module                      | Focus                                      | Status      |
 | --- | --------------------------- | ------------------------------------------ | ----------- |
-| 00  | Local demo target           | Vulnerable vs safe mode + monitoring board | Ready       |
+| 00  | Local demo target           | Vulnerable vs safe mode + monitoring board | [▶️ Watch](https://youtu.be/cUcpSuf5EZo) |
 | 01  | Simple auth bypass patterns | Input handling weaknesses in login logic   | Planned     |
 | 02  | Data extraction concepts    | Error-based, boolean, and blind indicators | Planned     |
 | 03  | Advanced simulation         | Time-based behavior and WAF response study | Planned     |

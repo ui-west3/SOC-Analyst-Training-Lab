@@ -20,7 +20,7 @@ Hands-on offensive labs for controlled reconnaissance, service analysis, and saf
 | [Hydra](./hydra/) | Brute-force simulation vs defensive controls                | ✅ Labs 00–03 in repo + `hydra-labs-menu.sh` |
 | [Hashcat](./hashcat/) | Offline hash recovery (lab-generated material only)        | ✅ Labs 01–02 published |
 | [John the Ripper](./john-the-ripper/) | Offline cracking with John (formats, wordlists)             | 🧱 Lab 01 skeleton — recording queue |
-| [SQL Injection](./sql-injection/) | SQLi simulation + SOC monitoring-first response | 🎬 Filming prep complete |
+| [SQL Injection](./sql-injection/) | SQLi simulation + SOC monitoring-first response | ✅ Lab 00 published |
 
 
 ## 📌 Folder standard

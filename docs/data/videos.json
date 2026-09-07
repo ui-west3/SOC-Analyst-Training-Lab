@@ -83,5 +83,10 @@
     "id": "CZ6vZzXUn9k",
     "title": "Hashcat Lab 02: Rules & Mask Attack (Realistic Password Patterns)",
     "track": "hashcat"
+  },
+  {
+    "id": "cUcpSuf5EZo",
+    "title": "SQLi Lab 00: Vulnerable vs Safe + Monitoring (Local Demo)",
+    "track": "sqli"
   }
 ]

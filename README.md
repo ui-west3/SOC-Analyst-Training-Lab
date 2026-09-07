@@ -54,7 +54,7 @@ This repository is **portfolio-first**: every block shows **what was done**, **h
 | Track                     | Scope                                                                                   | Status                       |
 | ------------------------- | --------------------------------------------------------------------------------------- | ---------------------------- |
 | **Linux Hardening**       | UFW, SSH hardening, banners, agent forwarding, Fail2Ban, final automation               | ✅ **01–06** (docs + scripts) |
-| **Red Team (Offensive)**  | Nmap + Hydra + Hashcat on video; **John** queued; SQLi demo (video plan) | 🚧 In progress               |
+| **Red Team (Offensive)**  | Nmap + Hydra + Hashcat + **SQLi 00** on video; **John** queued | 🚧 In progress               |
 | **Blue Team (Defensive)** | Tool track: Wireshark → Wazuh → Suricata ([labs/defensive-blue](./labs/defensive-blue/)) | 🧱 Lab 01 docs in repo       |
 | **SOC expansion**         | Windows/AD and extra incident cases (not the Blue tool playlist)        | ⏳ Planned                    |
 
@@ -71,7 +71,7 @@ This repository is **portfolio-first**: every block shows **what was done**, **h
 | Hydra           | 00–03         | 04 videos (Labs 00–03) + docs/menu      | ✅       | 🟢 Complete block |
 | Hashcat         | 01–02         | 2 videos (Labs 01–02)                    | ✅       | 🟢 Complete block |
 | John the Ripper | 01 (planned)  | 0 videos (docs skeleton)                 | ✅       | 🟡 Recording queue |
-| SQL Injection   | 00            | 0 videos yet (recording plan ready)    | ✅       | 🟡 Planned videos |
+| SQL Injection   | 00            | 1 video (Lab 00)                       | ✅       | 🟢 Lab 00 published |
 | Defensive Blue  | 01–03         | 0 videos (Lab 01 docs + Hydra ticket companion) | 🧱 | 🔵 Wireshark first |
 
 
@@ -83,7 +83,7 @@ This repository is **portfolio-first**: every block shows **what was done**, **h
 
 - Nmap core block is published end-to-end (Labs 01-06).
 - Hydra **Labs 00–03** have walkthroughs on YouTube; repo includes SSH (Docker + scripts), HTTP form, and FTP targets with compose + `hydra-labs-menu.sh`.
-- SQL Injection local demo target is prepared in repo with vulnerable/safe mode, monitoring board, and admin training dashboard (video links to be added after recording).
+- **SQL Injection** Lab 00 is published — [Watch](https://youtu.be/cUcpSuf5EZo) · [Docs](./labs/offensive-red/sql-injection/00-local-demo/) (vulnerable vs safe, monitoring board, admin queue).
 - **Hashcat** track: Labs 01–02 are published — [Lab 01](https://youtu.be/uwtM6-ZVCSg), [Lab 02](https://youtu.be/CZ6vZzXUn9k) (lab-generated hashes only).
 - **John the Ripper** track: [lab docs](./labs/offensive-red/john-the-ripper/) are prepared for the matching offline cracking block.
 - **Defensive Blue:** Lab 01 (Wireshark, SQLi loopback pcap) is documented; Labs 02–03 (Wazuh, Suricata) are planned. Hydra HTTP triage is a [repo companion](./labs/defensive-blue/companions/hydra-00-http-triage/), not a Blue episode.
@@ -97,7 +97,7 @@ This repository is **portfolio-first**: every block shows **what was done**, **h
 - Daily: TryHackMe learning and notes  
 - Weekly: batch recording and scheduled publishing  
 - **John the Ripper (Red track):** Lab 01 in recording queue (offline cracking, purple detection notes). Hashcat 01–02 are already published.  
-- **SQL Injection (Red track):** local demo is ready; walkthrough links will be added after recording  
+- **SQL Injection (Red track):** Lab 00 published — [Watch](https://youtu.be/cUcpSuf5EZo). Next: auth-bypass patterns (Lab 01).  
 - **Defensive Blue:** first video is [Wireshark Lab 01](./labs/defensive-blue/01-wireshark-sqli-pcap/) (one SQLi scene). Then Wazuh, then Suricata. Not a remake of Hydra 00.  
 - Rule: **one tool per series** (no mixing tools in one video block)
 
@@ -162,7 +162,7 @@ Where a lab has a walkthrough, the link is below. **Shared / orchestration scrip
 
 | #   | Lab                                                            | Video / materials                                              |
 | --- | -------------------------------------------------------------- | -------------------------------------------------------------- |
-| 00  | Local training demo (vulnerable vs safe + monitoring + admin) | [Docs (ready)](./labs/offensive-red/sql-injection/00-local-demo/) |
+| 00  | Local training demo (vulnerable vs safe + monitoring + admin) | [▶️ Watch](https://youtu.be/cUcpSuf5EZo) · [Docs](./labs/offensive-red/sql-injection/00-local-demo/) |
 | —   | Follow-up topics (fundamentals, detection/triage angles, etc.) | 🎬 Planned — split into separate videos after Lab 00 walkthrough |
 
 ### Defensive Blue

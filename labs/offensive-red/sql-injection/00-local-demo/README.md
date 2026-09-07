@@ -1,5 +1,8 @@
 # SQL Injection 00 - Local Demo Target
 
+**Status:** published  
+**Video:** [SQLi Lab 00 — Vulnerable vs Safe + Monitoring (Local Demo)](https://youtu.be/cUcpSuf5EZo)
+
 Local-only SQL injection training website for practical demos and SOC-style monitoring.
 
 ## Goal

@@ -11,7 +11,7 @@ High-level plan for labs, videos, and portfolio evolution.
 - Hydra Series: `<progress value="4" max="4"></progress>` **4/4 (100%)** — Labs 00–03 published on video + `hydra-labs-menu.sh`.
 - Hashcat Series: `<progress value="2" max="2"></progress>` **2/2 (100%)** — Labs 01–02 published (lab-generated hashes only).
 - John the Ripper: `<progress value="0" max="1"></progress>` **0/1 (0%)** — Lab 01 skeleton in repo; recording queue.
-- SQL Injection: `<progress value="0" max="1"></progress>` **0/1 videos** — local demo ready in repo.
+- SQL Injection: `<progress value="1" max="1"></progress>` **1/1 Lab 00 video** — [Watch](https://youtu.be/cUcpSuf5EZo); further SQLi labs optional.
 - Blue Team (`labs/defensive-blue/`): `<progress value="1" max="3"></progress>` **1/3 docs** — Lab 01 Wireshark written; Labs 02–03 planned. **0 videos.** Hydra HTTP triage is a **repo companion**, not Lab 01.
 - SOC Analyst Path: Linux + Nmap + Hydra + Hashcat video blocks closed; John + SQLi walkthroughs next; then Blue Wireshark.
 
@@ -35,7 +35,7 @@ High-level plan for labs, videos, and portfolio evolution.
 ## 🔜 Near term (1–2 months)
 
 - **John the Ripper (Red track)** — Lab 01 walkthrough after Hashcat; [john-the-ripper](./labs/offensive-red/john-the-ripper/); English captions; **lab-generated hashes only**.
-- **SQL Injection (Red track)** — walkthrough for the [sql-injection 00 local demo](./labs/offensive-red/sql-injection/00-local-demo/); links synced in root `README.md` and GitHub Pages.
+- **SQL Injection Lab 01 (optional)** — auth-bypass patterns after Lab 00 ([Watch](https://youtu.be/cUcpSuf5EZo)).
 - **Defensive Blue Lab 01** — [Wireshark, one SQLi scene](./labs/defensive-blue/01-wireshark-sqli-pcap/) on loopback (`127.0.0.1:8088`). Same [LAB_TEMPLATE.md](./labs/LAB_TEMPLATE.md). **Do not** remake Hydra 00 as a Blue video.
 
 ---
