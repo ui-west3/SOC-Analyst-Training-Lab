@@ -149,7 +149,7 @@ def clear_events() -> None:
 @app.route("/", methods=["GET", "POST"])
 def index():
     mode = request.values.get("mode", "vulnerable")
-    action = request.values.get("action", "search")
+    action = request.values.get("action", "")
     query = request.values.get("query", "")
     username = request.values.get("username", "")
     password = request.values.get("password", "")
@@ -157,22 +157,29 @@ def index():
     rows = []
     info = ""
     warning = ""
+    search_ran = False
 
     if request.method == "POST":
         ip = request.remote_addr or "unknown"
-        if action == "search":
-            if mode == "vulnerable":
+        if action == "set_mode":
+            info = f"Mode set to {mode}."
+        elif action == "search":
+            if not query.strip():
+                warning = "Enter a search term. An empty query is not run (it would match the whole catalog)."
+            elif mode == "vulnerable":
                 sql = f"SELECT id, name, category, price FROM products WHERE name LIKE '%{query}%'"
                 try:
                     with db_conn() as conn:
                         rows = conn.execute(sql).fetchall()
                     info = "Vulnerable mode: raw SQL string executed."
+                    search_ran = True
                     log_event(
                         "search_vulnerable",
                         {"ip": ip, "sql": sql, "query": query, "rows": len(rows)},
                     )
                 except sqlite3.Error as exc:
                     warning = f"SQLite error: {exc}"
+                    search_ran = True
                     log_event(
                         "search_vulnerable_error",
                         {"ip": ip, "sql": sql, "query": query, "error": str(exc)},
@@ -182,14 +189,16 @@ def index():
                 with db_conn() as conn:
                     rows = conn.execute(sql, (f"%{query}%",)).fetchall()
                 info = "Safe mode: parameterized query executed."
+                search_ran = True
                 log_event("search_safe", {"ip": ip, "sql": sql, "query": query, "rows": len(rows)})
 
-            signals = detect_signals(query)
-            if signals:
-                log_event(
-                    "sqli_signal",
-                    {"ip": ip, "action": action, "payload": query, "signals": signals},
-                )
+            if search_ran:
+                signals = detect_signals(query)
+                if signals:
+                    log_event(
+                        "sqli_signal",
+                        {"ip": ip, "action": action, "payload": query, "signals": signals},
+                    )
 
         elif action == "login":
             if mode == "vulnerable":
@@ -250,6 +259,7 @@ def index():
         rows=rows,
         info=info,
         warning=warning,
+        search_ran=search_ran,
         current_user=session.get("user"),
     )
 

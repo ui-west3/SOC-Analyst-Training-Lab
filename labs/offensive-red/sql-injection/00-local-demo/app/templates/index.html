@@ -32,7 +32,7 @@
         <section class="card">
             <h2>Mode</h2>
             <form method="post" class="mode-form">
-                <input type="hidden" name="action" value="{{ action }}">
+                <input type="hidden" name="action" value="set_mode">
                 <label><input type="radio" name="mode" value="vulnerable" {% if mode == 'vulnerable' %}checked{% endif %}> Vulnerable</label>
                 <label><input type="radio" name="mode" value="safe" {% if mode == 'safe' %}checked{% endif %}> Safe (parameterized)</label>
                 <button type="submit" class="btn">Apply mode</button>
@@ -68,6 +68,8 @@
                         </tbody>
                     </table>
                 </div>
+                {% elif search_ran %}
+                <p class="meta">No matching products.</p>
                 {% endif %}
             </article>
 
