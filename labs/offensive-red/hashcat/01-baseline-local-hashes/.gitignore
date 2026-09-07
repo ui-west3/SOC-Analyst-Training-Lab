@@ -1,0 +1,7 @@
+# Local lab material — never commit real hashes from production
+*.pot
+*.hash
+hashes.txt
+cracked.txt
+input/*.txt
+artifacts/*.txt

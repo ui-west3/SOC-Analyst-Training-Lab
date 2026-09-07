@@ -1,0 +1,3 @@
+artifacts/*.log
+artifacts/*.txt
+.env

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQLi Admin Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <main class="container">
+        <header class="hero">
+            <h1>Admin Dashboard (Training)</h1>
+            <p>Signed in as <strong>{{ current_user.username }}</strong> ({{ current_user.role }}).</p>
+            <a class="btn ghost" href="{{ url_for('index') }}">Back to Demo</a>
+        </header>
+
+        <section class="stats">
+            <article class="stat-card"><span>Total users</span><strong>{{ users_count }}</strong></article>
+            <article class="stat-card"><span>Total products</span><strong>{{ products_count }}</strong></article>
+            <article class="stat-card"><span>Incident rows shown</span><strong>{{ incidents|length }}</strong></article>
+        </section>
+
+        <section class="card">
+            <h2>Latest incidents</h2>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr><th>ID</th><th>Title</th><th>Severity</th><th>Owner</th><th>Status</th></tr>
+                    </thead>
+                    <tbody>
+                        {% for incident in incidents %}
+                        <tr>
+                            <td>{{ incident.id }}</td>
+                            <td>{{ incident.title }}</td>
+                            <td>{{ incident.severity }}</td>
+                            <td>{{ incident.owner }}</td>
+                            <td>{{ incident.status }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

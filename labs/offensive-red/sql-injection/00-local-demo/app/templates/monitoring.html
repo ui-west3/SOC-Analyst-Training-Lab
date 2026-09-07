@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQLi Monitoring Board</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <main class="container">
+        <header class="hero">
+            <h1>Monitoring Board</h1>
+            <p>Use these events to explain detection and triage.</p>
+            <div class="toolbar">
+                <a class="btn ghost" href="{{ url_for('index') }}">Back to Demo</a>
+                <form method="post" action="{{ url_for('monitoring_clear') }}" class="inline-form">
+                    <button type="submit" class="btn ghost danger">Clear Monitoring Board</button>
+                </form>
+            </div>
+        </header>
+
+        <section class="stats">
+            <article class="stat-card"><span>Total events</span><strong>{{ summary.total }}</strong></article>
+            <article class="stat-card"><span>SQLi signal hits</span><strong>{{ summary.signal_hits }}</strong></article>
+            <article class="stat-card"><span>Vulnerable actions</span><strong>{{ summary.vulnerable_actions }}</strong></article>
+            <article class="stat-card"><span>Safe actions</span><strong>{{ summary.safe_actions }}</strong></article>
+        </section>
+
+        <section class="card">
+            <h2>Recent events</h2>
+            {% if events %}
+            <div class="log-wrap">
+                {% for event in events %}
+                <pre>{{ event.ts_utc }} | {{ event.event_type }} | {{ event.details }}</pre>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p class="meta">No events yet. Run actions on the main page.</p>
+            {% endif %}
+        </section>
+    </main>
+</body>
+</html>

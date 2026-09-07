@@ -1,0 +1,87 @@
+[
+  {
+    "id": "zgGrlMZAEcM",
+    "title": "Lab 01: Firewall Setup (UFW)",
+    "track": "linux"
+  },
+  {
+    "id": "ULZVP8h6Uvc",
+    "title": "Lab 02: SSH Keys Deployment",
+    "track": "linux"
+  },
+  {
+    "id": "ILBxHbIw74Y",
+    "title": "Lab 03: Security Banners",
+    "track": "linux"
+  },
+  {
+    "id": "NOCivaFgoXc",
+    "title": "Lab 04: SSH Agent Forwarding",
+    "track": "linux"
+  },
+  {
+    "id": "KGf3O-4LXkQ",
+    "title": "Lab 05: Fail2Ban Setup",
+    "track": "linux"
+  },
+  {
+    "id": "abxydAApkko",
+    "title": "Nmap Lab 01: Host Discovery + Fast Scan",
+    "track": "nmap"
+  },
+  {
+    "id": "vPJW-t86lgc",
+    "title": "Nmap Lab 02: SYN Scan Basics",
+    "track": "nmap"
+  },
+  {
+    "id": "vn8LKGCSVQk",
+    "title": "Nmap Lab 03: Service Detection",
+    "track": "nmap"
+  },
+  {
+    "id": "uDrDLcGPx1A",
+    "title": "Nmap Lab 04: Speed vs Depth",
+    "track": "nmap"
+  },
+  {
+    "id": "Jk_YhxfHPCw",
+    "title": "Nmap Lab 05: Output & Reporting",
+    "track": "nmap"
+  },
+  {
+    "id": "wZI1miGav1w",
+    "title": "Nmap Lab 06: Safe NSE Intro",
+    "track": "nmap"
+  },
+  {
+    "id": "H16hmZXzrYA",
+    "title": "Hydra Lab 00: Speed vs Rate Limiting (Custom Range)",
+    "track": "hydra"
+  },
+  {
+    "id": "-rTCzClzzZQ",
+    "title": "Hydra Lab 01: SSH Brute-Force + Fail2Ban Bridge",
+    "track": "hydra"
+  },
+  {
+    "id": "v7YRHpcEzHg",
+    "title": "Hydra Lab 02: HTTP Form Brute-Force (Apache/PHP)",
+    "track": "hydra"
+  },
+  {
+    "id": "UAhLfay0G-w",
+    "title": "Hydra Lab 03: FTP Brute-Force (Pure-FTPd, Local Docker)",
+    "track": "hydra"
+  },
+  {
+    "id": "uwtM6-ZVCSg",
+    "title": "Hashcat Lab 01: Offline Hash Cracking Basics (SHA-256, Wordlist Attack)",
+    "track": "hashcat"
+  },
+  {
+    "id": "CZ6vZzXUn9k",
+    "title": "Hashcat Lab 02: Rules & Mask Attack (Realistic Password Patterns)",
+    "track": "hashcat"
+  }
+]

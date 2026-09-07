@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+env/
+*.egg-info/
+.eggs/
+dist/
+build/
+
+# IDE / editor
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# SQLi local demo — runtime DB and logs (recreated on container start)
+labs/offensive-red/sql-injection/00-local-demo/artifacts/*.db
+labs/offensive-red/sql-injection/00-local-demo/artifacts/*.log
+
+# Blue packet captures — generated locally, not committed
+labs/defensive-blue/**/*.pcap
+labs/defensive-blue/**/*.pcapng
+labs/defensive-blue/**/*.cap
+
+# Hash cracking labs — never commit real hash dumps or potfiles
+labs/offensive-red/hashcat/**/*.potfile
+labs/offensive-red/hashcat/artifacts/*.txt
+labs/offensive-red/john-the-ripper/**/*.pot
+labs/offensive-red/john-the-ripper/artifacts/*.txt

@@ -1,0 +1,10 @@
+[sshd]
+enabled  = true
+port     = 2222
+filter   = sshd
+backend  = auto
+logpath  = /var/log/auth.log
+maxretry = 5
+findtime = 600
+bantime  = 3600
+ignoreip =

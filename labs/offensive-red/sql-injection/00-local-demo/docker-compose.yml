@@ -1,0 +1,11 @@
+services:
+  sqli-demo:
+    build: ./app
+    container_name: sqli-local-demo
+    ports:
+      - "127.0.0.1:8088:8088"
+    environment:
+      - FLASK_ENV=production
+    volumes:
+      - ./artifacts:/app/artifacts
+    restart: unless-stopped

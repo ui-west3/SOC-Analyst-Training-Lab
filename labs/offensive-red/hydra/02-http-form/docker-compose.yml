@@ -1,0 +1,9 @@
+services:
+  http-form-target:
+    image: php:8.3-apache-bookworm
+    container_name: hydra-http-form-target
+    ports:
+      - "8080:80"
+    volumes:
+      - ./www:/var/www/html
+    restart: unless-stopped

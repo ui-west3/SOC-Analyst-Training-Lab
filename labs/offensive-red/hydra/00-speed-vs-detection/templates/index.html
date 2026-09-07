@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Hydra Lab 00 — local training target: HTTP login, live log, rate limit &amp; lockout toggles. SOC Analyst Training Lab (2026). Author: Miroslav Ustimenko." />
+  <title>Hydra Lab 00 — training login</title>
+  <style>
+    :root {
+      --bg: #0f1419;
+      --panel: #1a2332;
+      --text: #e6edf3;
+      --muted: #8b949e;
+      --accent: #58a6ff;
+      --bad: #f85149;
+      --ok: #3fb950;
+      --border: #30363d;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+    header {
+      padding: 0.75rem 1.25rem;
+      border-bottom: 1px solid var(--border);
+      background: #161b22;
+    }
+    header h1 { margin: 0; font-size: 1rem; font-weight: 600; }
+    header p { margin: 0.35rem 0 0; font-size: 0.8rem; color: var(--muted); }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      min-height: calc(100vh - 72px);
+    }
+    @media (max-width: 900px) {
+      .grid { grid-template-columns: 1fr; }
+    }
+    .pane {
+      padding: 1.25rem;
+      border-right: 1px solid var(--border);
+    }
+    .pane:last-child { border-right: none; }
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+      max-width: 420px;
+    }
+    label { display: block; font-size: 0.8rem; color: var(--muted); margin-bottom: 0.35rem; }
+    input[type="text"], input[type="password"] {
+      width: 100%;
+      padding: 0.5rem 0.65rem;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: #0d1117;
+      color: var(--text);
+      margin-bottom: 0.75rem;
+    }
+    button[type="submit"] {
+      background: var(--accent);
+      color: #0d1117;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    button[type="submit"]:hover { filter: brightness(1.08); }
+    .hint { font-size: 0.75rem; color: var(--muted); margin-top: 0.75rem; }
+    .log {
+      font-family: ui-monospace, "Cascadia Code", monospace;
+      font-size: 0.72rem;
+      line-height: 1.45;
+      background: #0d1117;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.75rem;
+      height: min(55vh, 420px);
+      overflow: auto;
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+    .log .row.ok { color: var(--ok); }
+    .log .row.fail { color: var(--bad); }
+    .controls {
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+    }
+    .controls h2 { font-size: 0.85rem; margin: 0 0 0.5rem; }
+    .toggle {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin: 0.4rem 0;
+      font-size: 0.8rem;
+    }
+    .toggle input { width: 1rem; height: 1rem; }
+    .delay {
+      margin-top: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.8rem;
+    }
+    .delay input[type="number"] { width: 5rem; padding: 0.25rem; }
+    footer.site-footer {
+      padding: 0.75rem 1.25rem;
+      border-top: 1px solid var(--border);
+      background: #161b22;
+      font-size: 0.72rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+    footer.site-footer strong { color: var(--text); font-weight: 600; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Hydra Lab 00 — Speed vs detection (training target)</h1>
+    <p>Local lab only · bind <span id="bind-hint"></span> · not for production</p>
+  </header>
+  <div class="grid">
+    <section class="pane">
+      <div class="card">
+        <form method="post" action="/login" id="login-form" autocomplete="off" target="_self">
+          <label for="username">Username</label>
+          <input id="username" name="username" type="text" value="" />
+          <label for="password">Password</label>
+          <input id="password" name="password" type="password" value="" />
+          <button type="submit">Sign in</button>
+        </form>
+        <p class="hint">Demo user shown for Hydra: <strong>{{ lab_user }}</strong> · password is intentionally weak for the lab.</p>
+      </div>
+    </section>
+    <section class="pane">
+      <h2 style="font-size:0.9rem;margin:0 0 0.5rem;">Live attempt log</h2>
+      <div class="log" id="log-panel">Loading…</div>
+      <div class="controls">
+        <h2>Defense toggles (Blue)</h2>
+        <label class="toggle">
+          <input type="checkbox" id="t-rate" />
+          Rate limit (burst control)
+        </label>
+        <p id="rate-cap-hint" class="hint" style="margin:0 0 0.5rem;"></p>
+        <label class="toggle">
+          <input type="checkbox" id="t-lock" />
+          Lockout after failed tries
+        </label>
+        <p id="lock-hint" class="hint" style="margin:0 0 0.5rem;"></p>
+        <div class="delay">
+          <span>Response delay (ms)</span>
+          <input type="number" id="t-delay" min="0" max="2000" step="50" value="0" />
+          <button type="button" id="btn-apply">Apply</button>
+        </div>
+        <p class="hint" style="margin-top:0.5rem;">Set value, then <strong>Apply</strong> or leave the field (blur) — each login waits this long before processing.</p>
+      </div>
+    </section>
+  </div>
+  <script>
+    const logPanel = document.getElementById("log-panel");
+    document.getElementById("bind-hint").textContent = window.location.origin;
+
+    async function refreshLogs() {
+      try {
+        const r = await fetch("/api/logs");
+        const j = await r.json();
+        const lines = j.events.map((e) => {
+          const cls = e.success ? "ok" : "fail";
+          return `<span class="row ${cls}">${e.ts}  ${e.ip}  ${e.user}  ${e.detail}</span>`;
+        });
+        logPanel.innerHTML = lines.length ? lines.join("\n") : "<span class='muted'>(no events yet)</span>";
+        /* Do not overwrite t-delay here — polling would reset the input every 400ms
+           before the user can click Apply (delay looked "broken"). */
+        if (j.settings) {
+          document.getElementById("t-rate").checked = !!j.settings.rate_limit;
+          document.getElementById("t-lock").checked = !!j.settings.lockout;
+          const rc = document.getElementById("rate-cap-hint");
+          const lh = document.getElementById("lock-hint");
+          if (rc) {
+            rc.textContent =
+              "Server cap when ON: " +
+              (j.settings.rate_limit_max ?? 2) +
+              " POST /login per " +
+              (j.settings.rate_window_sec ?? 10) +
+              "s per IP (strict for demos).";
+          }
+          if (lh) {
+            lh.textContent =
+              "When ON: block IP after " +
+              (j.settings.lockout_after_fails ?? 3) +
+              " failed logins for " +
+              (j.settings.lockout_sec ?? 60) +
+              "s.";
+          }
+        }
+      } catch (e) {
+        logPanel.textContent = "Failed to load /api/logs";
+      }
+    }
+    setInterval(refreshLogs, 400);
+    refreshLogs();
+
+    /* One-time: show server delay after reload (polling no longer overwrites the input). */
+    fetch("/api/settings")
+      .then((r) => r.json())
+      .then((s) => {
+        if (typeof s.delay_ms === "number") {
+          document.getElementById("t-delay").value = s.delay_ms;
+        }
+      })
+      .catch(() => {});
+
+    async function pushSettings(extra) {
+      const body = {
+        rate_limit: document.getElementById("t-rate").checked,
+        lockout: document.getElementById("t-lock").checked,
+        delay_ms: parseInt(document.getElementById("t-delay").value, 10) || 0,
+        ...extra,
+      };
+      await fetch("/api/settings", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+      refreshLogs();
+    }
+    document.getElementById("t-rate").addEventListener("change", () => pushSettings());
+    document.getElementById("t-lock").addEventListener("change", () => pushSettings());
+    document.getElementById("btn-apply").addEventListener("click", () => pushSettings());
+    document.getElementById("t-delay").addEventListener("change", () => pushSettings());
+    /* Form uses normal POST (no JS) so Hydra and browsers behave the same. */
+  </script>
+  <footer class="site-footer">
+    <strong>Miroslav Ustimenko</strong> · SOC Analyst Training Lab · Hydra track Lab 00 · 2026<br />
+    Educational brute-force demo: use only on hosts you own or with explicit authorization.
+  </footer>
+</body>
+</html>

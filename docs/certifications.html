@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="MiroslavSec Certification Museum - verified cybersecurity learning milestones.">
+    <title>MiroslavSec | Certification Museum</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&family=Exo+2:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="certifications.css">
+</head>
+<body>
+    <header class="museum-hero">
+        <div class="museum-hero-overlay"></div>
+        <div class="container museum-hero-content">
+            <a class="museum-back" href="index.html">← Back to portfolio</a>
+            <h1>Certification Museum</h1>
+            <p>SOC Level 1 leads the gallery — verified milestones and the next goals.</p>
+        </div>
+    </header>
+
+    <main class="museum-main">
+        <section class="section">
+            <div class="container">
+                <div class="museum-filters" id="museum-filters">
+                    <button class="museum-filter active" type="button" data-filter="all">All</button>
+                    <button class="museum-filter" type="button" data-filter="earned">Earned</button>
+                    <button class="museum-filter" type="button" data-filter="progress">In Progress</button>
+                    <button class="museum-filter" type="button" data-filter="planned">Planned</button>
+                </div>
+                <div class="museum-grid" id="museum-grid"></div>
+            </div>
+        </section>
+
+        <section class="section section-alt">
+            <div class="container">
+                <h2 class="section-title">Why This Matters</h2>
+                <p class="section-desc">
+                    This museum is a growth timeline, not a static certificate list. Each milestone maps to practical labs, video walkthroughs, and defensive knowledge.
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <div class="cert-modal" id="cert-modal" aria-hidden="true">
+        <div class="cert-modal-backdrop" data-close-modal="true"></div>
+        <article class="cert-modal-card" role="dialog" aria-modal="true" aria-labelledby="cert-modal-title">
+            <button class="cert-modal-close" type="button" data-close-modal="true" aria-label="Close">×</button>
+            <img class="cert-modal-image" id="cert-modal-image" src="" alt="Certificate preview" hidden>
+            <p class="cert-modal-issuer" id="cert-modal-issuer"></p>
+            <h3 id="cert-modal-title"></h3>
+            <p class="cert-modal-date" id="cert-modal-date"></p>
+            <p class="cert-modal-desc" id="cert-modal-desc"></p>
+            <div class="cert-modal-actions">
+                <a id="cert-modal-credential" class="btn btn-secondary" href="#" target="_blank" rel="noopener noreferrer">View Credential</a>
+                <a id="cert-modal-image-link" class="btn btn-secondary" href="#" target="_blank" rel="noopener noreferrer" hidden>Open Full Image</a>
+            </div>
+        </article>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; MiroslavSec. Certification Museum.</p>
+        </div>
+    </footer>
+
+    <script src="certifications.js"></script>
+</body>
+</html>

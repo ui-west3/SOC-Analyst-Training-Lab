@@ -1,0 +1,16 @@
+services:
+  ssh-target:
+    image: lscr.io/linuxserver/openssh-server:latest
+    container_name: hydra-ssh-target
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=UTC
+      - PASSWORD_ACCESS=true
+      - USER_NAME=labuser
+      - USER_PASSWORD=labpass
+    ports:
+      - "2222:2222"
+    volumes:
+      - ./target-data:/config
+    restart: unless-stopped

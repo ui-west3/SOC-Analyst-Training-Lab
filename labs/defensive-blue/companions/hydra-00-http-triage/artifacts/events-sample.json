@@ -1,0 +1,26 @@
+{
+  "settings": {
+    "rate_limit": false,
+    "lockout": false,
+    "delay_ms": 0
+  },
+  "events": [
+    {"ts": "2026-08-30T18:01:02Z", "ip": "127.0.0.1", "user": "labuser", "success": false, "detail": "bad_password"},
+    {"ts": "2026-08-30T18:01:03Z", "ip": "127.0.0.1", "user": "labuser", "success": false, "detail": "bad_password"},
+    {"ts": "2026-08-30T18:01:03Z", "ip": "127.0.0.1", "user": "labuser", "success": false, "detail": "bad_password"},
+    {"ts": "2026-08-30T18:01:04Z", "ip": "127.0.0.1", "user": "labuser", "success": false, "detail": "bad_password"},
+    {"ts": "2026-08-30T18:01:04Z", "ip": "127.0.0.1", "user": "labuser", "success": false, "detail": "bad_password"},
+    {"ts": "2026-08-30T18:01:05Z", "ip": "127.0.0.1", "user": "labuser", "success": false, "detail": "bad_password"},
+    {"ts": "2026-08-30T18:01:05Z", "ip": "127.0.0.1", "user": "labuser", "success": false, "detail": "bad_password"},
+    {"ts": "2026-08-30T18:01:06Z", "ip": "127.0.0.1", "user": "labuser", "success": false, "detail": "bad_password"},
+    {"ts": "2026-08-30T18:01:06Z", "ip": "127.0.0.1", "user": "labuser", "success": false, "detail": "bad_password"},
+    {"ts": "2026-08-30T18:01:07Z", "ip": "127.0.0.1", "user": "labuser", "success": false, "detail": "bad_password"},
+    {"ts": "2026-08-30T18:01:08Z", "ip": "127.0.0.1", "user": "labuser", "success": false, "detail": "bad_password"},
+    {"ts": "2026-08-30T18:01:09Z", "ip": "127.0.0.1", "user": "labuser", "success": false, "detail": "bad_password"},
+    {"ts": "2026-08-30T18:01:20Z", "ip": "127.0.0.1", "user": "labuser", "success": false, "detail": "bad_password"},
+    {"ts": "2026-08-30T18:01:21Z", "ip": "127.0.0.1", "user": "labuser", "success": false, "detail": "bad_password"},
+    {"ts": "2026-08-30T18:01:21Z", "ip": "127.0.0.1", "user": "labuser", "success": false, "detail": "lockout_triggered"},
+    {"ts": "2026-08-30T18:01:22Z", "ip": "127.0.0.1", "user": "labuser", "success": false, "detail": "blocked_lockout"},
+    {"ts": "2026-08-30T18:01:23Z", "ip": "127.0.0.1", "user": "labuser", "success": false, "detail": "blocked_lockout"}
+  ]
+}

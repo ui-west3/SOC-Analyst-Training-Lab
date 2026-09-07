@@ -1,0 +1,4 @@
+# Local lab material
+input/*.txt
+artifacts/*.txt
+*.pot

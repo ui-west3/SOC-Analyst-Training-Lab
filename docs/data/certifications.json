@@ -1,0 +1,41 @@
+[
+  {
+    "title": "SOC Level 1",
+    "issuer": "TryHackMe",
+    "date": "5 August 2026",
+    "status": "earned",
+    "featured": true,
+    "hours": "65 hours 29 minutes",
+    "credential_id": "THM-F2RPCLMD8O",
+    "image": "assets/certifications/thm-soc-level-1-2026-08-05.png",
+    "credential_url": "https://tryhackme.com/certificate/THM-F2RPCLMD8O",
+    "description": "Completed the SOC Level 1 learning path: security operations, threat intelligence, SIEM, digital forensics, and incident response. Course duration: 65 hours 29 minutes."
+  },
+  {
+    "title": "Cyber Security 101",
+    "issuer": "TryHackMe",
+    "date": "24 March 2026",
+    "status": "earned",
+    "image": "assets/certifications/thm-cyber-security-101-2026-03-24.png",
+    "credential_url": "https://tryhackme.com/path/outline/cybersecurity101",
+    "description": "Completed practical entry-level cyber operations path with a defensive mindset. Course duration: 45 hours 23 minutes."
+  },
+  {
+    "title": "Introduction to Cybersecurity",
+    "issuer": "Cisco Networking Academy",
+    "date": "1 April 2026",
+    "status": "earned",
+    "image": "assets/certifications/cisco-introduction-to-cybersecurity-2026-04-01.png",
+    "credential_url": "https://www.credly.com/badges/3e2809fb-f385-428a-ab0a-b81e6875d472/public_url",
+    "description": "Completed the Cisco Networking Academy Introduction to Cybersecurity course. Issued date: Apr 01, 2026."
+  },
+  {
+    "title": "Network Defense",
+    "issuer": "Cisco Networking Academy",
+    "date": "1 April 2026",
+    "status": "earned",
+    "image": "assets/certifications/cisco-network-defense-2026-04-01.png",
+    "credential_url": "https://www.credly.com/badges/cc062846-14d2-4b8f-ba2d-93368c8f263d/public_url",
+    "description": "Completed the Cisco Networking Academy Network Defense course. Focused on network security posture, endpoint controls, firewall simulation, PKI usage, and secure data protection practices."
+  }
+]

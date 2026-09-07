@@ -1,0 +1,13 @@
+services:
+  ftp-target:
+    image: stilliard/pure-ftpd:latest
+    container_name: hydra-ftp-target
+    ports:
+      - "2121:21"
+      - "30000-30009:30000-30009"
+    environment:
+      PUBLICHOST: "127.0.0.1"
+      FTP_USER_NAME: labuser
+      FTP_USER_PASS: labpass
+      FTP_USER_HOME: /home/labuser
+    restart: unless-stopped

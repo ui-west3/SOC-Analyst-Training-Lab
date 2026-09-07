@@ -1,0 +1,3 @@
+artifacts/*.pcap
+artifacts/*.pcapng
+artifacts/*.cap

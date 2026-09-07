@@ -1,0 +1,39 @@
+# Update site videos from YouTube channel RSS (no API key).
+# New videos appear on the site automatically after this runs.
+#
+# Setup: Add repository variable YOUTUBE_CHANNEL_ID in
+# Settings → Secrets and variables → Actions → Variables.
+# Get your channel ID: YouTube Studio → Settings → Advanced, or view channel page source and search for "channel_id".
+
+name: Update YouTube videos
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'   # every 6 hours
+  workflow_dispatch:
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      # update_videos.py merges RSS titles with the existing file and preserves per-video ``track`` for site filters.
+      - name: Fetch YouTube RSS and update videos.json
+        env:
+          YOUTUBE_CHANNEL_ID: ${{ vars.YOUTUBE_CHANNEL_ID }}
+        run: python3 scripts/update_videos.py
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add docs/data/videos.json
+          git diff --staged --quiet || (git commit -m "chore: update videos from YouTube" && git push)

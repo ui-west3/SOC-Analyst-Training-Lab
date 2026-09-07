@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQLi Local Training Demo</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <main class="container">
+        <header class="hero">
+            <h1>SQL Injection Local Training Demo</h1>
+            <p>Controlled vulnerable/safe modes for education only.</p>
+            <div class="toolbar">
+                <a class="btn ghost" href="{{ url_for('monitoring') }}">Open Monitoring</a>
+                {% if current_user %}
+                {% if current_user.role == 'admin' %}
+                <a class="btn ghost" href="{{ url_for('admin') }}">Open Admin Dashboard</a>
+                {% endif %}
+                <form method="post" class="inline-form">
+                    <input type="hidden" name="action" value="logout">
+                    <input type="hidden" name="mode" value="{{ mode }}">
+                    <button type="submit" class="btn ghost danger">Logout</button>
+                </form>
+                {% endif %}
+            </div>
+            {% if current_user %}
+            <p class="meta">Signed in as <strong>{{ current_user.username }}</strong> ({{ current_user.role }})</p>
+            {% endif %}
+        </header>
+
+        <section class="card">
+            <h2>Mode</h2>
+            <form method="post" class="mode-form">
+                <input type="hidden" name="action" value="{{ action }}">
+                <label><input type="radio" name="mode" value="vulnerable" {% if mode == 'vulnerable' %}checked{% endif %}> Vulnerable</label>
+                <label><input type="radio" name="mode" value="safe" {% if mode == 'safe' %}checked{% endif %}> Safe (parameterized)</label>
+                <button type="submit" class="btn">Apply mode</button>
+            </form>
+            <p class="meta">Current mode: <strong>{{ mode }}</strong></p>
+        </section>
+
+        <section class="grid">
+            <article class="card">
+                <h2>Product Search</h2>
+                <form method="post">
+                    <input type="hidden" name="action" value="search">
+                    <input type="hidden" name="mode" value="{{ mode }}">
+                    <label for="query">Search input</label>
+                    <input id="query" type="text" name="query" value="{{ query }}" placeholder="Try normal and suspicious patterns">
+                    <button type="submit" class="btn">Run search</button>
+                </form>
+                {% if rows %}
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr><th>ID</th><th>Name</th><th>Category</th><th>Price</th></tr>
+                        </thead>
+                        <tbody>
+                            {% for row in rows %}
+                            <tr>
+                                <td>{{ row.id }}</td>
+                                <td>{{ row.name }}</td>
+                                <td>{{ row.category }}</td>
+                                <td>${{ row.price }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% endif %}
+            </article>
+
+            <article class="card">
+                <h2>Demo Login</h2>
+                <form method="post">
+                    <input type="hidden" name="action" value="login">
+                    <input type="hidden" name="mode" value="{{ mode }}">
+                    <label for="username">Username</label>
+                    <input id="username" type="text" name="username" value="{{ username }}" placeholder="admin">
+                    <label for="password">Password</label>
+                    <input id="password" type="text" name="password" placeholder="password">
+                    <button type="submit" class="btn">Try login</button>
+                </form>
+                <p class="meta">Demo users: admin / analyst / guest + seeded users (user01..user60)</p>
+            </article>
+        </section>
+
+        {% if info %}
+        <div class="notice ok">{{ info }}</div>
+        {% endif %}
+        {% if warning %}
+        <div class="notice warn">{{ warning }}</div>
+        {% endif %}
+
+        <section class="card">
+            <h2>Recording Notes</h2>
+            <ul>
+                <li>Show same input in vulnerable and safe mode.</li>
+                <li>Open monitoring page after each request to map attacker action to defender signal.</li>
+                <li>Close every episode with mitigation: prepared statements + input validation + least privilege.</li>
+            </ul>
+        </section>
+
+        <section class="card">
+            <h2>SQLi Cheat Sheet (Training)</h2>
+            <p class="meta">Use this block to explain what each injection style tries to do and how defenders should respond.</p>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Injection type</th>
+                            <th>Goal</th>
+                            <th>Where to test in this lab</th>
+                            <th>Example training payload</th>
+                            <th>Expected behavior</th>
+                            <th>Defender takeaway</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Boolean-based (OR logic)</td>
+                            <td>Force condition to evaluate true.</td>
+                            <td><code>Demo Login</code> username field</td>
+                            <td><code>' OR '1'='1' --</code></td>
+                            <td>In <code>vulnerable</code>: may bypass auth. In <code>safe</code>: login should fail.</td>
+                            <td>Use parameterized queries and strict auth checks.</td>
+                        </tr>
+                        <tr>
+                            <td>Union-based probing</td>
+                            <td>Try to merge attacker-controlled results.</td>
+                            <td><code>Product Search</code> and <code>Demo Login</code></td>
+                            <td><code>' UNION SELECT 1,2,3,4 --</code></td>
+                            <td>In <code>vulnerable</code>: may show SQL errors or mixed rows. In <code>safe</code>: treated as plain text.</td>
+                            <td>Hide detailed DB errors and monitor union/comment markers.</td>
+                        </tr>
+                        <tr>
+                            <td>Comment truncation</td>
+                            <td>Ignore part of original SQL query.</td>
+                            <td><code>Demo Login</code> payload endings</td>
+                            <td><code>admin' --</code></td>
+                            <td>In <code>vulnerable</code>: query logic can be altered. In <code>safe</code>: no SQL execution effect.</td>
+                            <td>Detect repeated comment patterns and correlate with auth failures.</td>
+                        </tr>
+                        <tr>
+                            <td>Error-based feedback</td>
+                            <td>Learn query structure from DB errors.</td>
+                            <td><code>Demo Login</code> and <code>Product Search</code></td>
+                            <td><code>' UNION SELECT 1,2 --</code> (column mismatch demo)</td>
+                            <td>In <code>vulnerable</code>: SQL errors can leak structure hints.</td>
+                            <td>Return generic app errors; log details server-side only.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="meta">Training only: run payloads in this local lab environment and compare the same input in both modes.</p>
+        </section>
+
+        <section class="card">
+            <h2>What each mode does</h2>
+            <ul>
+                <li><strong>Vulnerable mode:</strong> the app trusts what you type and inserts it directly into SQL code.</li>
+                <li><strong>Safe mode:</strong> the app treats your input as plain text data, so it cannot become a SQL command.</li>
+                <li><strong>Monitoring board:</strong> tracks suspicious markers, action type, and event timeline for SOC triage practice.</li>
+            </ul>
+        </section>
+    </main>
+</body>
+</html>
