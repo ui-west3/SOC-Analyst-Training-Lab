@@ -12,6 +12,16 @@
     "description": "Completed the SOC Level 1 learning path: security operations, threat intelligence, SIEM, digital forensics, and incident response. Course duration: 65 hours 29 minutes."
   },
   {
+    "title": "Ethical Hacker",
+    "issuer": "Cisco Networking Academy",
+    "date": "10 September 2026",
+    "status": "earned",
+    "badge": "assets/certifications/cisco-ethical-hacker-badge-2026-09-10.png",
+    "image": "assets/certifications/cisco-ethical-hacker-2026-09-10.png",
+    "credential_url": "assets/certifications/cisco-ethical-hacker-certificate-2026-09-10.png",
+    "description": "Completed the Cisco Networking Academy Ethical Hacker course: methodological pentesting, recon and vulnerability scanning, network/app/cloud attack surfaces, post-exploitation concepts, and reporting. Student-level course credential (not EC-Council CEH)."
+  },
+  {
     "title": "Cyber Security 101",
     "issuer": "TryHackMe",
     "date": "24 March 2026",

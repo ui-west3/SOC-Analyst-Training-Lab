@@ -58,8 +58,26 @@
                 if (c.credential_id) {
                     chips.push('<span class="museum-chip museum-chip-id">' + escapeHtml(c.credential_id) + '</span>');
                 }
+                if (c.badge) {
+                    card.classList.add('has-badge');
+                }
+                var imageBlock = '';
+                if (c.image) {
+                    imageBlock =
+                        '<div class="museum-image-wrap' + (c.badge ? ' with-badge' : '') + '">' +
+                        '<img class="museum-image" src="' + escapeHtml(c.image) + '" alt="' + escapeHtml((c.title || 'Certificate') + ' preview') + '" loading="lazy">' +
+                        (c.badge
+                            ? '<img class="museum-badge-float" src="' + escapeHtml(c.badge) + '" alt="' + escapeHtml((c.title || '') + ' badge') + '" loading="lazy">'
+                            : '') +
+                        '</div>';
+                } else if (c.badge) {
+                    imageBlock =
+                        '<div class="museum-badge-solo">' +
+                        '<img src="' + escapeHtml(c.badge) + '" alt="' + escapeHtml((c.title || '') + ' badge') + '" loading="lazy">' +
+                        '</div>';
+                }
                 card.innerHTML =
-                    (c.image ? '<div class="museum-image-wrap"><img class="museum-image" src="' + escapeHtml(c.image) + '" alt="' + escapeHtml((c.title || 'Certificate') + ' preview') + '" loading="lazy"></div>' : '') +
+                    imageBlock +
                     '<div class="museum-card-body">' +
                     '<div class="museum-card-top">' +
                         '<span class="museum-issuer">' + escapeHtml(c.issuer || 'Issuer') + '</span>' +

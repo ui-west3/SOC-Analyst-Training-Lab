@@ -195,11 +195,17 @@
 }
 
 .museum-image-wrap {
+    position: relative;
     margin: 0.75rem 0 0.5rem;
     border: 1px solid rgba(255, 255, 255, 0.12);
     border-radius: 10px;
     overflow: hidden;
     background: rgba(0, 0, 0, 0.25);
+}
+
+.museum-image-wrap.with-badge {
+    border-color: rgba(0, 145, 234, 0.35);
+    box-shadow: 0 10px 28px rgba(0, 40, 80, 0.35), inset 0 0 0 1px rgba(0, 180, 255, 0.08);
 }
 
 .museum-image {
@@ -208,6 +214,50 @@
     height: 200px;
     object-fit: contain;
     background: rgba(0, 0, 0, 0.32);
+}
+
+.museum-image-wrap.with-badge .museum-image {
+    height: 220px;
+    background:
+        radial-gradient(circle at 80% 85%, rgba(0, 145, 234, 0.18), transparent 40%),
+        rgba(4, 12, 28, 0.9);
+}
+
+.museum-badge-float {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    width: 78px;
+    height: 78px;
+    border-radius: 16px;
+    object-fit: cover;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.45), 0 0 16px rgba(0, 180, 255, 0.35);
+    background: #041428;
+}
+
+.museum-badge-solo {
+    margin: 0.75rem 0 0.5rem;
+    display: grid;
+    place-items: center;
+    min-height: 180px;
+    border-radius: 12px;
+    border: 1px solid rgba(0, 145, 234, 0.35);
+    background:
+        radial-gradient(circle at 50% 40%, rgba(0, 160, 255, 0.2), transparent 55%),
+        rgba(4, 12, 28, 0.9);
+}
+
+.museum-badge-solo img {
+    width: 140px;
+    height: 140px;
+    border-radius: 22px;
+    object-fit: cover;
+    box-shadow: 0 12px 28px rgba(0, 80, 140, 0.4);
+}
+
+.museum-card.has-badge {
+    border-color: rgba(0, 145, 234, 0.28);
 }
 
 .museum-issuer {
@@ -402,6 +452,14 @@
 
     .museum-card.featured .museum-image {
         max-height: 240px;
+    }
+
+    .museum-badge-float {
+        width: 64px;
+        height: 64px;
+        border-radius: 12px;
+        right: 8px;
+        bottom: 8px;
     }
 }
 

@@ -107,7 +107,10 @@
                     var card = document.createElement('article');
                     var status = (c.status || 'planned').toLowerCase();
                     var featured = !!c.featured;
-                    card.className = featured ? 'cert-card featured' : 'cert-card';
+                    var hasBadge = !!(c.badge);
+                    card.className = featured
+                        ? 'cert-card featured'
+                        : (hasBadge ? 'cert-card has-badge' : 'cert-card');
                     card.setAttribute('tabindex', '0');
                     var meta = [];
                     if (c.hours) {
@@ -116,10 +119,14 @@
                     if (c.credential_id) {
                         meta.push('<span class="cert-chip cert-chip-id">' + escapeHtml(c.credential_id) + '</span>');
                     }
+                    var mediaHtml = '';
+                    if (featured && c.image) {
+                        mediaHtml = '<div class="cert-media"><img src="' + escapeHtml(c.image) + '" alt="' + escapeHtml((c.title || 'Certificate') + ' preview') + '" loading="lazy"></div>';
+                    } else if (hasBadge) {
+                        mediaHtml = '<div class="cert-badge-wrap"><img class="cert-badge" src="' + escapeHtml(c.badge) + '" alt="' + escapeHtml((c.title || 'Badge') + ' badge') + '" loading="lazy"></div>';
+                    }
                     card.innerHTML =
-                        (featured && c.image
-                            ? '<div class="cert-media"><img src="' + escapeHtml(c.image) + '" alt="' + escapeHtml((c.title || 'Certificate') + ' preview') + '" loading="lazy"></div>'
-                            : '') +
+                        mediaHtml +
                         '<div class="cert-body">' +
                         '<div class="cert-top">' +
                         '<span class="cert-issuer">' + escapeHtml(c.issuer || 'Certification') + '</span>' +
