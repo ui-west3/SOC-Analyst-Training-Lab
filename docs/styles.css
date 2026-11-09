@@ -234,6 +234,21 @@ body {
     vertical-align: middle;
 }
 
+.cert-media-compact {
+    max-height: 160px;
+}
+
+.cert-media-compact img {
+    max-height: 160px;
+    width: 100%;
+    object-fit: cover;
+    object-position: top center;
+}
+
+.cert-card.in-progress {
+    border-color: rgba(251, 191, 36, 0.35);
+}
+
 .cert-card.has-badge {
     display: grid;
     grid-template-columns: 92px 1fr;
@@ -413,6 +428,11 @@ body {
 
 .cert-link:hover {
     text-decoration: underline;
+}
+
+.cert-link.muted {
+    opacity: 0.55;
+    pointer-events: none;
 }
 
 /* About */

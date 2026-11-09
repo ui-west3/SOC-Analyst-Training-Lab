@@ -103,7 +103,16 @@
         fetch('data/certifications.json')
             .then(function (r) { return r.json(); })
             .then(function (certs) {
-                certs.forEach(function (c) {
+                // Landing shows highlight shelf only; full set lives in the museum
+                var highlights = certs.filter(function (c) {
+                    return !!c.featured || (c.status || '') === 'progress';
+                });
+                var extras = certs.filter(function (c) {
+                    return !c.featured && (c.status || '') === 'earned';
+                }).slice(0, 3);
+                var shelf = highlights.concat(extras);
+
+                shelf.forEach(function (c) {
                     var card = document.createElement('article');
                     var status = (c.status || 'planned').toLowerCase();
                     var featured = !!c.featured;
@@ -111,6 +120,7 @@
                     card.className = featured
                         ? 'cert-card featured'
                         : (hasBadge ? 'cert-card has-badge' : 'cert-card');
+                    if (status === 'progress') card.classList.add('in-progress');
                     card.setAttribute('tabindex', '0');
                     var meta = [];
                     if (c.hours) {
@@ -122,9 +132,14 @@
                     var mediaHtml = '';
                     if (featured && c.image) {
                         mediaHtml = '<div class="cert-media"><img src="' + escapeHtml(c.image) + '" alt="' + escapeHtml((c.title || 'Certificate') + ' preview') + '" loading="lazy"></div>';
+                    } else if (c.image && status === 'earned') {
+                        mediaHtml = '<div class="cert-media cert-media-compact"><img src="' + escapeHtml(c.image) + '" alt="' + escapeHtml((c.title || 'Certificate') + ' preview') + '" loading="lazy"></div>';
                     } else if (hasBadge) {
                         mediaHtml = '<div class="cert-badge-wrap"><img class="cert-badge" src="' + escapeHtml(c.badge) + '" alt="' + escapeHtml((c.title || 'Badge') + ' badge') + '" loading="lazy"></div>';
                     }
+                    var linkHtml = c.credential_url
+                        ? '<a class="cert-link" href="' + escapeHtml(c.credential_url) + '" target="_blank" rel="noopener noreferrer">View credential</a>'
+                        : '<span class="cert-link muted">In progress</span>';
                     card.innerHTML =
                         mediaHtml +
                         '<div class="cert-body">' +
@@ -137,7 +152,7 @@
                         '<p class="cert-date">' + escapeHtml(c.date || 'TBD') + '</p>' +
                         (meta.length ? '<div class="cert-meta">' + meta.join('') + '</div>' : '') +
                         '<p class="cert-desc">' + escapeHtml(c.description || '') + '</p>' +
-                        '<a class="cert-link" href="' + escapeHtml(c.credential_url || '#') + '" target="_blank" rel="noopener noreferrer">View credential</a>' +
+                        linkHtml +
                         '</div>';
 
                     attachSpotlight(card);

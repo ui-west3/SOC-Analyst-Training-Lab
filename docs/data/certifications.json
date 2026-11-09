@@ -4,6 +4,7 @@
     "issuer": "TryHackMe",
     "date": "5 August 2026",
     "status": "earned",
+    "collection": "platforms",
     "featured": true,
     "hours": "65 hours 29 minutes",
     "credential_id": "THM-F2RPCLMD8O",
@@ -16,16 +17,29 @@
     "issuer": "Cisco Networking Academy",
     "date": "10 September 2026",
     "status": "earned",
+    "collection": "vendors",
     "badge": "assets/certifications/cisco-ethical-hacker-badge-2026-09-10.png",
     "image": "assets/certifications/cisco-ethical-hacker-2026-09-10.png",
     "credential_url": "assets/certifications/cisco-ethical-hacker-certificate-2026-09-10.png",
     "description": "Completed the Cisco Networking Academy Ethical Hacker course: methodological pentesting, recon and vulnerability scanning, network/app/cloud attack surfaces, post-exploitation concepts, and reporting. Student-level course credential (not EC-Council CEH)."
   },
   {
+    "title": "Introduction to OSINT",
+    "issuer": "Centri / Security Blue Team",
+    "date": "9 November 2026",
+    "status": "earned",
+    "collection": "vendors",
+    "credential_id": "447759646",
+    "image": "assets/certifications/centri-introduction-to-osint-2026-11-09.png",
+    "credential_url": "assets/certifications/centri-introduction-to-osint-2026-11-09.pdf",
+    "description": "Completed the Introduction to OSINT course: open-source data, tools and techniques, and how OSINT supports defenders, attackers, and business decisions. Entry-level completion credential."
+  },
+  {
     "title": "Cyber Security 101",
     "issuer": "TryHackMe",
     "date": "24 March 2026",
     "status": "earned",
+    "collection": "platforms",
     "image": "assets/certifications/thm-cyber-security-101-2026-03-24.png",
     "credential_url": "https://tryhackme.com/path/outline/cybersecurity101",
     "description": "Completed practical entry-level cyber operations path with a defensive mindset. Course duration: 45 hours 23 minutes."
@@ -35,6 +49,7 @@
     "issuer": "Cisco Networking Academy",
     "date": "1 April 2026",
     "status": "earned",
+    "collection": "vendors",
     "image": "assets/certifications/cisco-introduction-to-cybersecurity-2026-04-01.png",
     "credential_url": "https://www.credly.com/badges/3e2809fb-f385-428a-ab0a-b81e6875d472/public_url",
     "description": "Completed the Cisco Networking Academy Introduction to Cybersecurity course. Issued date: Apr 01, 2026."
@@ -44,8 +59,17 @@
     "issuer": "Cisco Networking Academy",
     "date": "1 April 2026",
     "status": "earned",
+    "collection": "vendors",
     "image": "assets/certifications/cisco-network-defense-2026-04-01.png",
     "credential_url": "https://www.credly.com/badges/cc062846-14d2-4b8f-ba2d-93368c8f263d/public_url",
     "description": "Completed the Cisco Networking Academy Network Defense course. Focused on network security posture, endpoint controls, firewall simulation, PKI usage, and secure data protection practices."
+  },
+  {
+    "title": "BTJA — Blue Team Junior Analyst",
+    "issuer": "Centri / Security Blue Team",
+    "date": "In progress",
+    "status": "progress",
+    "collection": "vendors",
+    "description": "Currently studying the Blue Team Junior Analyst track: defensive foundations, SOC-oriented skills, and practical analyst workflows. Slot will upgrade to Earned after completion."
   }
 ]

@@ -2,7 +2,9 @@
     'use strict';
 
     var grid = document.getElementById('museum-grid');
+    var stats = document.getElementById('museum-stats');
     var filtersWrap = document.getElementById('museum-filters');
+    var collectionsWrap = document.getElementById('museum-collections');
     var modal = document.getElementById('cert-modal');
     var modalIssuer = document.getElementById('cert-modal-issuer');
     var modalTitle = document.getElementById('cert-modal-title');
@@ -14,128 +16,164 @@
 
     if (!grid) return;
 
+    var state = { collection: 'featured', status: 'all' };
+
     fetch('data/certifications.json')
         .then(function (r) { return r.json(); })
         .then(function (certs) {
-            render(certs, 'all');
+            paintStats(certs);
+            render(certs);
             setupFilters(certs);
         })
         .catch(function () {
             grid.innerHTML = '<p class="section-desc">Could not load certifications data.</p>';
         });
 
+    function paintStats(certs) {
+        if (!stats) return;
+        var earned = certs.filter(function (c) { return (c.status || '') === 'earned'; }).length;
+        var progress = certs.filter(function (c) { return (c.status || '') === 'progress'; }).length;
+        var planned = certs.filter(function (c) { return (c.status || '') === 'planned'; }).length;
+        stats.innerHTML =
+            '<div class="museum-stat"><strong>' + earned + '</strong><span>Earned</span></div>' +
+            '<div class="museum-stat"><strong>' + progress + '</strong><span>In progress</span></div>' +
+            '<div class="museum-stat"><strong>' + planned + '</strong><span>Planned</span></div>' +
+            '<div class="museum-stat"><strong>' + certs.length + '</strong><span>On shelf</span></div>';
+    }
+
     function setupFilters(certs) {
-        if (!filtersWrap) return;
-        filtersWrap.querySelectorAll('.museum-filter').forEach(function (btn) {
+        bindGroup(collectionsWrap, 'collection', 'data-collection', function (value) {
+            state.collection = value;
+            render(certs);
+        });
+        bindGroup(filtersWrap, 'status', 'data-filter', function (value) {
+            state.status = value;
+            render(certs);
+        });
+    }
+
+    function bindGroup(wrap, _kind, attr, onChange) {
+        if (!wrap) return;
+        wrap.querySelectorAll('.museum-filter').forEach(function (btn) {
             btn.addEventListener('click', function () {
-                filtersWrap.querySelectorAll('.museum-filter').forEach(function (b) {
+                wrap.querySelectorAll('.museum-filter').forEach(function (b) {
                     b.classList.remove('active');
                 });
                 btn.classList.add('active');
-                render(certs, btn.dataset.filter || 'all');
+                onChange(btn.getAttribute(attr) || 'all');
             });
         });
     }
 
-    function render(certs, filter) {
+    function matches(cert) {
+        var status = (cert.status || 'planned').toLowerCase();
+        var collection = (cert.collection || 'vendors').toLowerCase();
+
+        if (state.status !== 'all' && status !== state.status) return false;
+
+        if (state.collection === 'all') return true;
+        if (state.collection === 'featured') return !!cert.featured;
+        return collection === state.collection;
+    }
+
+    function sortCerts(list) {
+        var rank = { progress: 1, earned: 0, planned: 2 };
+        return list.slice().sort(function (a, b) {
+            if (!!b.featured - !!a.featured) return !!b.featured - !!a.featured;
+            var sa = rank[(a.status || '').toLowerCase()] || 9;
+            var sb = rank[(b.status || '').toLowerCase()] || 9;
+            if (sa !== sb) return sa - sb;
+            return String(b.date || '').localeCompare(String(a.date || ''));
+        });
+    }
+
+    function render(certs) {
         grid.innerHTML = '';
-        var shown = certs
-            .filter(function (c) {
-                if (filter === 'all') return true;
-                return (c.status || '').toLowerCase() === filter;
-            });
+        var shown = sortCerts(certs.filter(matches));
+
+        if (!shown.length) {
+            grid.innerHTML =
+                '<p class="museum-empty">Nothing in this shelf yet — switch collection or status, or finish the next course.</p>';
+            return;
+        }
 
         shown.forEach(function (c, index) {
-                var status = (c.status || 'planned').toLowerCase();
-                var featured = !!c.featured;
-                var card = document.createElement('article');
-                card.className = featured ? 'museum-card featured reveal' : 'museum-card reveal';
-                card.style.animationDelay = (index * 90) + 'ms';
-                var chips = [];
-                if (c.hours) {
-                    chips.push('<span class="museum-chip">' + escapeHtml(c.hours) + '</span>');
-                }
-                if (c.credential_id) {
-                    chips.push('<span class="museum-chip museum-chip-id">' + escapeHtml(c.credential_id) + '</span>');
-                }
-                if (c.badge) {
-                    card.classList.add('has-badge');
-                }
-                var imageBlock = '';
-                if (c.image) {
-                    imageBlock =
-                        '<div class="museum-image-wrap' + (c.badge ? ' with-badge' : '') + '">' +
-                        '<img class="museum-image" src="' + escapeHtml(c.image) + '" alt="' + escapeHtml((c.title || 'Certificate') + ' preview') + '" loading="lazy">' +
-                        (c.badge
-                            ? '<img class="museum-badge-float" src="' + escapeHtml(c.badge) + '" alt="' + escapeHtml((c.title || '') + ' badge') + '" loading="lazy">'
-                            : '') +
-                        '</div>';
-                } else if (c.badge) {
-                    imageBlock =
-                        '<div class="museum-badge-solo">' +
-                        '<img src="' + escapeHtml(c.badge) + '" alt="' + escapeHtml((c.title || '') + ' badge') + '" loading="lazy">' +
-                        '</div>';
-                }
-                card.innerHTML =
-                    imageBlock +
-                    '<div class="museum-card-body">' +
-                    '<div class="museum-card-top">' +
-                        '<span class="museum-issuer">' + escapeHtml(c.issuer || 'Issuer') + '</span>' +
-                        '<span class="museum-status ' + escapeHtml(status) + '">' + (featured ? 'Featured' : escapeHtml(statusLabel(status))) + '</span>' +
-                    '</div>' +
-                    (featured ? '<p class="museum-kicker">Flagship SOC path</p>' : '') +
-                    '<h3 class="museum-title">' + escapeHtml(c.title || 'Untitled') + '</h3>' +
-                    '<p class="museum-date">' + escapeHtml(c.date || 'TBD') + '</p>' +
-                    (chips.length ? '<div class="museum-chips">' + chips.join('') + '</div>' : '') +
-                    '<p class="museum-desc">' + escapeHtml(c.description || '') + '</p>' +
-                    '<div class="museum-actions">' +
-                        '<a class="museum-link" href="' + escapeHtml(c.credential_url || '#') + '" target="_blank" rel="noopener noreferrer">View Credential</a>' +
-                        '<button class="museum-open" type="button">Museum View</button>' +
-                    '</div>' +
-                    '</div>';
-
-                attachSpotlight(card);
-                var openBtn = card.querySelector('.museum-open');
-                if (openBtn) {
-                    openBtn.addEventListener('click', function () {
-                        openModal(c);
-                    });
-                }
-                grid.appendChild(card);
-            });
-
-        addPlaceholders(filter, shown.length);
-    }
-
-    function addPlaceholders(filter, currentCount) {
-        var placeholderCount = getPlaceholderCount(filter);
-        for (var i = 0; i < placeholderCount; i++) {
-            var idx = currentCount + i;
+            var status = (c.status || 'planned').toLowerCase();
+            var featured = !!c.featured;
             var card = document.createElement('article');
-            card.className = 'museum-card placeholder reveal';
-            card.style.animationDelay = (idx * 90) + 'ms';
-            card.innerHTML =
-                '<div class="museum-card-top">' +
-                    '<span class="museum-issuer">TryHackMe</span>' +
-                    '<span class="museum-status planned">Planned</span>' +
-                '</div>' +
-                '<h3 class="museum-title">Upcoming Certification</h3>' +
-                '<p class="museum-date">Coming soon</p>' +
-                '<p class="museum-desc">New milestone is in progress. This slot will be replaced after completion.</p>' +
-                '<span class="museum-coming">Coming Soon</span>' +
-                '<div class="museum-actions">' +
-                    '<a class="museum-link" href="#">Hidden until earned</a>' +
-                    '<button class="museum-open" type="button" disabled>Locked</button>' +
-                '</div>';
-            grid.appendChild(card);
-        }
-    }
+            card.className = featured ? 'museum-card featured reveal' : 'museum-card reveal';
+            if (status === 'progress') card.classList.add('in-progress');
+            card.style.animationDelay = (index * 90) + 'ms';
 
-    function getPlaceholderCount(filter) {
-        if (filter === 'earned') return 1;
-        if (filter === 'progress') return 2;
-        if (filter === 'planned') return 3;
-        return 2;
+            var chips = [];
+            if (c.collection) {
+                chips.push('<span class="museum-chip museum-chip-collection">' + escapeHtml(collectionLabel(c.collection)) + '</span>');
+            }
+            if (c.hours) {
+                chips.push('<span class="museum-chip">' + escapeHtml(c.hours) + '</span>');
+            }
+            if (c.credential_id) {
+                chips.push('<span class="museum-chip museum-chip-id">' + escapeHtml(c.credential_id) + '</span>');
+            }
+            if (c.badge) {
+                card.classList.add('has-badge');
+            }
+
+            var imageBlock = '';
+            if (c.image) {
+                imageBlock =
+                    '<div class="museum-image-wrap' + (c.badge ? ' with-badge' : '') + '">' +
+                    '<img class="museum-image" src="' + escapeHtml(c.image) + '" alt="' + escapeHtml((c.title || 'Certificate') + ' preview') + '" loading="lazy">' +
+                    (c.badge
+                        ? '<img class="museum-badge-float" src="' + escapeHtml(c.badge) + '" alt="' + escapeHtml((c.title || '') + ' badge') + '" loading="lazy">'
+                        : '') +
+                    '</div>';
+            } else if (c.badge) {
+                imageBlock =
+                    '<div class="museum-badge-solo">' +
+                    '<img src="' + escapeHtml(c.badge) + '" alt="' + escapeHtml((c.title || '') + ' badge') + '" loading="lazy">' +
+                    '</div>';
+            } else if (status === 'progress') {
+                imageBlock =
+                    '<div class="museum-progress-panel">' +
+                    '<span class="museum-progress-tag">Now studying</span>' +
+                    '<p>Progress slot — will unlock the certificate image after completion.</p>' +
+                    '</div>';
+            }
+
+            var statusText = featured ? 'Featured' : statusLabel(status);
+            var credentialHref = c.credential_url || '#';
+            var hasCredential = !!(c.credential_url && c.credential_url !== '#');
+
+            card.innerHTML =
+                imageBlock +
+                '<div class="museum-card-body">' +
+                '<div class="museum-card-top">' +
+                    '<span class="museum-issuer">' + escapeHtml(c.issuer || 'Issuer') + '</span>' +
+                    '<span class="museum-status ' + escapeHtml(status) + '">' + escapeHtml(statusText) + '</span>' +
+                '</div>' +
+                (featured ? '<p class="museum-kicker">Flagship SOC path</p>' : '') +
+                '<h3 class="museum-title">' + escapeHtml(c.title || 'Untitled') + '</h3>' +
+                '<p class="museum-date">' + escapeHtml(c.date || 'TBD') + '</p>' +
+                (chips.length ? '<div class="museum-chips">' + chips.join('') + '</div>' : '') +
+                '<p class="museum-desc">' + escapeHtml(c.description || '') + '</p>' +
+                '<div class="museum-actions">' +
+                    (hasCredential
+                        ? '<a class="museum-link" href="' + escapeHtml(credentialHref) + '" target="_blank" rel="noopener noreferrer">View Credential</a>'
+                        : '<span class="museum-link muted">Credential pending</span>') +
+                    '<button class="museum-open" type="button"' + (c.image || c.description ? '' : ' disabled') + '>Museum View</button>' +
+                '</div>' +
+                '</div>';
+
+            attachSpotlight(card);
+            var openBtn = card.querySelector('.museum-open');
+            if (openBtn && !openBtn.disabled) {
+                openBtn.addEventListener('click', function () {
+                    openModal(c);
+                });
+            }
+            grid.appendChild(card);
+        });
     }
 
     function openModal(cert) {
@@ -170,7 +208,13 @@
         }
         modalDate.textContent = dateLine;
         modalDesc.textContent = cert.description || '';
-        modalCredential.href = cert.credential_url || '#';
+        if (cert.credential_url) {
+            modalCredential.href = cert.credential_url;
+            modalCredential.style.display = '';
+        } else {
+            modalCredential.removeAttribute('href');
+            modalCredential.style.display = 'none';
+        }
         modal.classList.add('show');
         modal.setAttribute('aria-hidden', 'false');
     }
@@ -194,6 +238,12 @@
         if (status === 'earned') return 'Earned';
         if (status === 'progress') return 'In Progress';
         return 'Planned';
+    }
+
+    function collectionLabel(collection) {
+        if (collection === 'platforms') return 'Labs & paths';
+        if (collection === 'vendors') return 'Vendors';
+        return collection;
     }
 
     function escapeHtml(text) {

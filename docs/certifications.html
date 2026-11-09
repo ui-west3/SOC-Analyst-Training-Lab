@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="MiroslavSec Certification Museum - verified cybersecurity learning milestones.">
+    <meta name="description" content="MiroslavSec Certification Museum — verified courses and the next goals.">
     <title>MiroslavSec | Certification Museum</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,29 +16,46 @@
         <div class="museum-hero-overlay"></div>
         <div class="container museum-hero-content">
             <a class="museum-back" href="index.html">← Back to portfolio</a>
+            <p class="museum-eyebrow">MiroslavSec · growth shelf</p>
             <h1>Certification Museum</h1>
-            <p>SOC Level 1 leads the gallery — verified milestones and the next goals.</p>
+            <p>Featured paths first. Platforms and vendors on their own shelves. Planned slots stay honest.</p>
+            <div class="museum-stats" id="museum-stats" aria-live="polite"></div>
         </div>
     </header>
 
     <main class="museum-main">
         <section class="section">
             <div class="container">
-                <div class="museum-filters" id="museum-filters">
-                    <button class="museum-filter active" type="button" data-filter="all">All</button>
-                    <button class="museum-filter" type="button" data-filter="earned">Earned</button>
-                    <button class="museum-filter" type="button" data-filter="progress">In Progress</button>
-                    <button class="museum-filter" type="button" data-filter="planned">Planned</button>
+                <div class="museum-filter-stack">
+                    <div class="museum-filter-row">
+                        <span class="museum-filter-label">Collection</span>
+                        <div class="museum-filters" id="museum-collections" role="tablist" aria-label="Collections">
+                            <button class="museum-filter active" type="button" data-collection="featured">Featured</button>
+                            <button class="museum-filter" type="button" data-collection="all">All</button>
+                            <button class="museum-filter" type="button" data-collection="platforms">Labs &amp; paths</button>
+                            <button class="museum-filter" type="button" data-collection="vendors">Vendors</button>
+                        </div>
+                    </div>
+                    <div class="museum-filter-row">
+                        <span class="museum-filter-label">Status</span>
+                        <div class="museum-filters museum-filters-status" id="museum-filters" role="tablist" aria-label="Status">
+                            <button class="museum-filter active" type="button" data-filter="all">All</button>
+                            <button class="museum-filter" type="button" data-filter="earned">Earned</button>
+                            <button class="museum-filter" type="button" data-filter="progress">In Progress</button>
+                            <button class="museum-filter" type="button" data-filter="planned">Planned</button>
+                        </div>
+                    </div>
                 </div>
                 <div class="museum-grid" id="museum-grid"></div>
             </div>
         </section>
 
         <section class="section section-alt">
-            <div class="container">
-                <h2 class="section-title">Why This Matters</h2>
+            <div class="container museum-footnote">
+                <h2 class="section-title">How to read this shelf</h2>
                 <p class="section-desc">
-                    This museum is a growth timeline, not a static certificate list. Each milestone maps to practical labs, video walkthroughs, and defensive knowledge.
+                    This is a learning timeline, not a vendor resume dump. Intro courses sit under Vendors or Labs;
+                    long paths and future proctored goals stay Featured. Each card links to a credential when one exists.
                 </p>
             </div>
         </section>

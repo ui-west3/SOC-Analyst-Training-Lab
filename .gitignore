@@ -26,11 +26,14 @@ Thumbs.db
 # SQLi local demo — runtime DB and logs (recreated on container start)
 labs/offensive-red/sql-injection/00-local-demo/artifacts/*.db
 labs/offensive-red/sql-injection/00-local-demo/artifacts/*.log
+labs/offensive-red/sql-injection/00-local-demo/app/artifacts/
 
-# Blue packet captures — generated locally, not committed
+# Blue packet captures / local capture noise
 labs/defensive-blue/**/*.pcap
 labs/defensive-blue/**/*.pcapng
 labs/defensive-blue/**/*.cap
+labs/defensive-blue/**/*smoke*
+labs/defensive-blue/**/*.log
 
 # Hash cracking labs — never commit real hash dumps or potfiles
 labs/offensive-red/hashcat/**/*.potfile
