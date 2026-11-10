@@ -24,6 +24,28 @@
     "description": "Completed the Cisco Networking Academy Ethical Hacker course: methodological pentesting, recon and vulnerability scanning, network/app/cloud attack surfaces, post-exploitation concepts, and reporting. Student-level course credential (not EC-Council CEH)."
   },
   {
+    "title": "Introduction to Dark Web Operations",
+    "issuer": "Centri / Security Blue Team",
+    "date": "10 November 2026",
+    "status": "earned",
+    "collection": "vendors",
+    "credential_id": "989700084",
+    "image": "assets/certifications/centri-introduction-to-dark-web-operations-2026-11-10.png",
+    "credential_url": "assets/certifications/centri-introduction-to-dark-web-operations-2026-11-10.pdf",
+    "description": "Completed Introduction to Dark Web Operations: clear/deep/dark web regions, how defenders and investigators use dark-web intel, and a practical assessment collecting actionable intelligence from a dark-web site. Entry-level completion credential."
+  },
+  {
+    "title": "Introduction to Network Analysis",
+    "issuer": "Centri / Security Blue Team",
+    "date": "9 November 2026",
+    "status": "earned",
+    "collection": "vendors",
+    "credential_id": "812306021",
+    "image": "assets/certifications/centri-introduction-to-network-analysis-2026-11-09.png",
+    "credential_url": "assets/certifications/centri-introduction-to-network-analysis-2026-11-09.pdf",
+    "description": "Completed Introduction to Network Analysis: networking fundamentals and PCAP analysis with Wireshark/tcpdump, including malicious traffic from a mock compromised system. Entry-level completion credential."
+  },
+  {
     "title": "Introduction to OSINT",
     "issuer": "Centri / Security Blue Team",
     "date": "9 November 2026",
@@ -70,6 +92,6 @@
     "date": "In progress",
     "status": "progress",
     "collection": "vendors",
-    "description": "Currently studying the Blue Team Junior Analyst track: defensive foundations, SOC-oriented skills, and practical analyst workflows. Slot will upgrade to Earned after completion."
+    "description": "Blue Team Junior Analyst track in progress. Centri intros already earned (OSINT, Network Analysis, Dark Web Operations); remaining BTJA modules still underway. Slot upgrades to Earned after full path completion."
   }
 ]
